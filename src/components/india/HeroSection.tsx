@@ -70,7 +70,7 @@ export function HeroSection({ onBegin }: HeroSectionProps) {
         }}
         transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
       >
-        <WavingFlag height={140} className="w-[200px] sm:w-[260px] md:w-[300px]" />
+        <WavingFlag height={140} wind="medium" className="w-[200px] sm:w-[260px] md:w-[300px]" />
       </motion.div>
 
       {/* Main content */}

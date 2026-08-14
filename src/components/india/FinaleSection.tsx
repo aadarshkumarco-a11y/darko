@@ -240,9 +240,9 @@ export function FinaleSection() {
         >
           <div className="relative">
             <div className="absolute inset-0 blur-3xl opacity-70">
-              <WavingFlag height={180} className="w-[280px] sm:w-[340px]" />
+              <WavingFlag height={180} wind="strong" className="w-[280px] sm:w-[340px]" />
             </div>
-            <WavingFlag height={180} className="w-[280px] sm:w-[340px] relative" />
+            <WavingFlag height={180} wind="strong" className="w-[280px] sm:w-[340px] relative" />
           </div>
         </motion.div>
 

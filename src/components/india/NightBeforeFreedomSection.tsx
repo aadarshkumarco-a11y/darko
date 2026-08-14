@@ -89,9 +89,9 @@ export function NightBeforeFreedomSection() {
               className="relative"
             >
               <div className="absolute inset-0 blur-3xl opacity-60">
-                <WavingFlag height={280} className="w-[320px] sm:w-[420px]" />
+                <WavingFlag height={280} wind="gentle" className="w-[320px] sm:w-[420px]" />
               </div>
-              <WavingFlag height={280} className="w-[320px] sm:w-[420px] relative" />
+              <WavingFlag height={280} wind="gentle" className="w-[320px] sm:w-[420px] relative" />
             </motion.div>
 
             <motion.div
