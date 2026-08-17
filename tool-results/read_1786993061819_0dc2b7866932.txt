@@ -1,0 +1,1137 @@
+     1→
+     2→=== PAGE 1 ===
+     3→DARKO — Kosmi-Inspired Virtual Hangout Platform
+     4→Product Requirements Document + Master Development Prompt
+     5→Version: 1.0
+     6→Date: 2026-08-18
+     7→Budget target: n0 / free-tier-first
+     8→Product goal: Build a premium, original web platform inspired by the functional category of Kosmi, without copying its
+     9→branding, proprietary assets, source code, or exact visual design.
+    10→---
+    11→1. Product Vision
+    12→DARKO is a browser-first virtual hangout platform where people can create a room and instantly invite friends to watch
+    13→content together, talk through voice/video, share screens, chat, exchange files/links, play multiplayer games, browse
+    14→together, and customize their shared space.
+    15→The product must feel like a premium social entertainment operating system rather than a basic watch-party page.
+    16→Core principle:
+    17→Create a room, share one link, and everything needed for a digital hangout is inside the room.
+    18→Guests should be able to join without creating an account. Google authentication is available for users who want
+    19→persistent profiles, saved rooms, preferences, history, or ownership.
+    20→---
+    21→2. Research-Based Feature Baseline
+    22→Current Kosmi materials describe a browser-based entertainment/hangout product with rooms, synchronized video,
+    23→games, shared browsing, screen sharing, link/file sharing, voice/video/messaging, customizable rooms, and public/private
+    24→room concepts. Kosmi also promotes no-download access and free usage.
+    25→DARKO should reproduce the underlying product category and workflows while using:
+    26→(cid:127) original branding
+    27→(cid:127) original UI
+    28→(cid:127) original copy
+    29→(cid:127) original assets
+    30→(cid:127) original architecture
+    31→(cid:127) open-source/free technologies where possible
+    32→Do not scrape, proxy, or redistribute copyrighted streaming content.
+    33→---
+    34→
+    35→=== PAGE 2 ===
+    36→3. Goals
+    37→Primary goals
+    38→1. Zero-cost-first architecture.
+    39→2. Guest-first room joining.
+    40→3. Google login as optional authentication.
+    41→4. Real-time multiplayer room experience.
+    42→5. P2P WebRTC wherever practical.
+    43→6. Maximum functionality possible without paid APIs.
+    44→7. Premium, unique UI.
+    45→8. Excellent desktop/tablet/mobile responsiveness.
+    46→9. Modular architecture so features can be added later.
+    47→10. Strong privacy and abuse controls.
+    48→Secondary goals
+    49→(cid:127) PWA installability.
+    50→(cid:127) SEO landing pages.
+    51→(cid:127) Shareable room URLs.
+    52→(cid:127) Room themes.
+    53→(cid:127) Public discovery.
+    54→(cid:127) Multiplayer games.
+    55→(cid:127) File/link sharing.
+    56→(cid:127) Watch queues/playlists.
+    57→(cid:127) Reactions.
+    58→(cid:127) Presence and typing indicators.
+    59→Non-goals
+    60→(cid:127) Do not bypass DRM.
+    61→(cid:127) Do not download/re-host Netflix, Prime Video, Disney+, HBO, or other protected content.
+    62→(cid:127) Do not implement copyright-infringing content libraries.
+    63→(cid:127) Do not pretend a paid service is free.
+    64→(cid:127) Do not depend on proprietary APIs when a browser-native/open alternative exists.
+    65→---
+    66→4. Users
+    67→Guest
+    68→
+    69→=== PAGE 3 ===
+    70→Can:
+    71→(cid:127) enter display name
+    72→(cid:127) join room by link
+    73→(cid:127) use permitted room features
+    74→(cid:127) chat
+    75→(cid:127) voice/video
+    76→(cid:127) screen share
+    77→(cid:127) watch supported content
+    78→(cid:127) play games
+    79→Authenticated user
+    80→Can additionally:
+    81→(cid:127) maintain profile
+    82→(cid:127) create/manage persistent rooms
+    83→(cid:127) save preferences
+    84→(cid:127) save room templates
+    85→(cid:127) view recent rooms
+    86→(cid:127) manage owned rooms
+    87→(cid:127) use Google account identity
+    88→Host
+    89→Can:
+    90→(cid:127) change room settings
+    91→(cid:127) control media synchronization
+    92→(cid:127) control permissions
+    93→(cid:127) mute/kick participants
+    94→(cid:127) lock room
+    95→(cid:127) enable/disable activities
+    96→(cid:127) transfer host role
+    97→Moderator
+    98→Can:
+    99→(cid:127) moderate messages
+   100→(cid:127) mute/kick
+   101→(cid:127) manage room permissions
+   102→(cid:127) manage public room visibility
+   103→Admin
+   104→
+   105→=== PAGE 4 ===
+   106→Can:
+   107→(cid:127) moderate platform-wide content
+   108→(cid:127) inspect abuse reports
+   109→(cid:127) manage public rooms
+   110→(cid:127) view system health
+   111→(cid:127) manage feature flags
+   112→(cid:127) manage bans
+   113→---
+   114→5. Main User Journey
+   115→Landing page
+   116→fi Create Room
+   117→fi choose room type/theme
+   118→fi enter display name or Google login
+   119→fi room created
+   120→fi invite link copied
+   121→fi friends join
+   122→fi permissions/camera/microphone prompt
+   123→fi room lobby
+   124→fi shared activity selected
+   125→fi watch/play/talk
+   126→fi switch activities without leaving room
+   127→Join flow:
+   128→Room URL
+   129→fi display name / Google login
+   130→fi optional device permissions
+   131→fi room
+   132→fi synchronized state received
+   133→fi participant presence established
+   134→---
+   135→6. Information Architecture
+   136→Public
+   137→(cid:127) `/`
+   138→(cid:127) `/features`
+   139→(cid:127) `/games`
+   140→
+   141→=== PAGE 5 ===
+   142→(cid:127) `/watch`
+   143→(cid:127) `/about`
+   144→(cid:127) `/privacy`
+   145→(cid:127) `/terms`
+   146→(cid:127) `/safety`
+   147→(cid:127) `/login`
+   148→(cid:127) `/signup`
+   149→(cid:127) `/join/[roomId]`
+   150→Authenticated
+   151→(cid:127) `/dashboard`
+   152→(cid:127) `/rooms`
+   153→(cid:127) `/rooms/create`
+   154→(cid:127) `/settings`
+   155→(cid:127) `/profile`
+   156→Room
+   157→(cid:127) `/room/[roomId]`
+   158→Admin
+   159→(cid:127) `/admin`
+   160→(cid:127) `/admin/reports`
+   161→(cid:127) `/admin/users`
+   162→(cid:127) `/admin/rooms`
+   163→(cid:127) `/admin/system`
+   164→---
+   165→7. Landing Page
+   166→Hero:
+   167→(cid:127) DARKO logo
+   168→(cid:127) strong headline
+   169→(cid:127) short value proposition
+   170→(cid:127) Create Room CTA
+   171→(cid:127) Join Room CTA
+   172→(cid:127) animated premium virtual-room visual
+   173→Sections:
+   174→1. Watch together
+   175→
+   176→=== PAGE 6 ===
+   177→2. Talk together
+   178→3. Play together
+   179→4. Share anything
+   180→5. Customize your room
+   181→6. Guest-first access
+   182→7. Privacy/security
+   183→8. PWA/cross-device
+   184→9. final CTA
+   185→Do not copy Kosmi's wording or layout.
+   186→---
+   187→8. Room Experience
+   188→The room is the heart of the application.
+   189→Desktop layout:
+   190→(cid:127) top bar
+   191→(cid:127) activity/workspace area
+   192→(cid:127) participant strip/sidebar
+   193→(cid:127) chat panel
+   194→(cid:127) bottom media/call controls
+   195→(cid:127) optional right-side activity drawer
+   196→Mobile:
+   197→(cid:127) activity occupies main area
+   198→(cid:127) bottom navigation
+   199→(cid:127) expandable participants
+   200→(cid:127) slide-over chat
+   201→(cid:127) compact call controls
+   202→(cid:127) touch-friendly controls
+   203→Room modes:
+   204→(cid:127) Watch
+   205→(cid:127) Screen Share
+   206→(cid:127) Browse
+   207→(cid:127) Games
+   208→(cid:127) Files
+   209→(cid:127) Whiteboard
+   210→(cid:127) Chat Lounge
+   211→---
+   212→
+   213→=== PAGE 7 ===
+   214→9. Watch Party
+   215→Supported free-first sources
+   216→Priority:
+   217→1. YouTube
+   218→2. direct public video URLs
+   219→3. user-selected local video via browser/P2P where technically feasible
+   220→4. HLS where browser-compatible and legally accessible
+   221→5. Twitch/public embeddable sources where permitted
+   222→6. other embeddable/public sources
+   223→For services protected by DRM:
+   224→(cid:127) do not attempt DRM bypass
+   225→(cid:127) provide screen-sharing workflow
+   226→(cid:127) explain that every participant may need their own subscription
+   227→(cid:127) never proxy protected streams through DARKO
+   228→Synchronization
+   229→Room media state:
+   230→(cid:127) source
+   231→(cid:127) currentTime
+   232→(cid:127) paused
+   233→(cid:127) playbackRate
+   234→(cid:127) volume policy
+   235→(cid:127) updatedAt
+   236→(cid:127) host/client authority
+   237→(cid:127) media session/version
+   238→Events:
+   239→(cid:127) PLAY
+   240→(cid:127) PAUSE
+   241→(cid:127) SEEK
+   242→(cid:127) RATE_CHANGE
+   243→(cid:127) SOURCE_CHANGE
+   244→(cid:127) SYNC_REQUEST
+   245→(cid:127) SYNC_RESPONSE
+   246→(cid:127) PLAYLIST_ADD
+   247→(cid:127) PLAYLIST_REMOVE
+   248→
+   249→=== PAGE 8 ===
+   250→(cid:127) PLAYLIST_REORDER
+   251→Use timestamps and server/client clock offset to reduce drift.
+   252→Clients periodically correct drift.
+   253→Do not send playback position every animation frame.
+   254→---
+   255→10. Playlist
+   256→Features:
+   257→(cid:127) add URL
+   258→(cid:127) add video
+   259→(cid:127) reorder
+   260→(cid:127) remove
+   261→(cid:127) next
+   262→(cid:127) previous
+   263→(cid:127) autoplay next
+   264→(cid:127) host-only or collaborative queue
+   265→(cid:127) queue persistence for authenticated room owners
+   266→---
+   267→11. Voice and Video
+   268→Use WebRTC.
+   269→Features:
+   270→(cid:127) microphone toggle
+   271→(cid:127) camera toggle
+   272→(cid:127) device selection
+   273→(cid:127) speaker selection where browser permits
+   274→(cid:127) screen share
+   275→(cid:127) screen-share audio where browser permits
+   276→(cid:127) participant tiles
+   277→(cid:127) active speaker
+   278→(cid:127) mute indicators
+   279→(cid:127) connection quality indicator
+   280→(cid:127) reconnect state
+   281→Architecture:
+   282→(cid:127) Socket/WebSocket signaling
+   283→
+   284→=== PAGE 9 ===
+   285→(cid:127) STUN for NAT traversal
+   286→(cid:127) optional TURN fallback
+   287→(cid:127) mesh for very small rooms
+   288→(cid:127) architecture must allow future SFU migration
+   289→Important:
+   290→A pure P2P mesh does not scale efficiently to large groups. The implementation must expose a media-provider
+   291→abstraction so an SFU can be added later without rewriting the room layer.
+   292→---
+   293→12. Screen Sharing
+   294→Use browser-native getDisplayMedia.
+   295→Modes:
+   296→(cid:127) screen
+   297→(cid:127) window
+   298→(cid:127) browser tab
+   299→Show:
+   300→(cid:127) presenter badge
+   301→(cid:127) stop-sharing control
+   302→(cid:127) active presenter
+   303→(cid:127) audio-share status
+   304→Never attempt to capture protected content without explicit browser/user permission.
+   305→---
+   306→13. Chat
+   307→Features:
+   308→(cid:127) realtime messages
+   309→(cid:127) emoji
+   310→(cid:127) reactions
+   311→(cid:127) reply
+   312→(cid:127) mentions
+   313→(cid:127) typing indicator
+   314→(cid:127) read/received state where practical
+   315→(cid:127) message timestamps
+   316→(cid:127) delete own message
+   317→(cid:127) moderator deletion
+   318→
+   319→=== PAGE 10 ===
+   320→(cid:127) rate limiting
+   321→(cid:127) spam protection
+   322→(cid:127) basic link preview
+   323→(cid:127) image/file attachment using safe limits
+   324→Chat should continue while switching activities.
+   325→---
+   326→14. Presence
+   327→Track:
+   328→(cid:127) joined
+   329→(cid:127) left
+   330→(cid:127) reconnecting
+   331→(cid:127) audio enabled
+   332→(cid:127) video enabled
+   333→(cid:127) screen sharing
+   334→(cid:127) current activity
+   335→(cid:127) host/moderator role
+   336→(cid:127) idle state
+   337→Use heartbeat + timeout.
+   338→Do not persist unnecessary presence history.
+   339→---
+   340→15. Room Permissions
+   341→Settings:
+   342→(cid:127) public/private
+   343→(cid:127) password
+   344→(cid:127) locked/unlocked
+   345→(cid:127) guest allowed
+   346→(cid:127) chat allowed
+   347→(cid:127) voice allowed
+   348→(cid:127) video allowed
+   349→(cid:127) screen share allowed
+   350→(cid:127) file sharing allowed
+   351→(cid:127) games allowed
+   352→(cid:127) who can control media
+   353→
+   354→=== PAGE 11 ===
+   355→(cid:127) who can invite
+   356→(cid:127) who can kick/mute
+   357→Roles:
+   358→(cid:127) owner
+   359→(cid:127) host
+   360→(cid:127) moderator
+   361→(cid:127) member
+   362→(cid:127) guest
+   363→---
+   364→16. Public Rooms
+   365→Optional lobby:
+   366→(cid:127) currently active public rooms
+   367→(cid:127) activity type
+   368→(cid:127) participant count
+   369→(cid:127) room title
+   370→(cid:127) language/category
+   371→(cid:127) room thumbnail
+   372→Safety:
+   373→(cid:127) report room
+   374→(cid:127) report user
+   375→(cid:127) hide room
+   376→(cid:127) moderation
+   377→(cid:127) automatic expiration
+   378→(cid:127) rate limits
+   379→Do not expose private room metadata.
+   380→---
+   381→17. Room Customization
+   382→Premium original visual system.
+   383→Themes:
+   384→(cid:127) Midnight Lounge
+   385→(cid:127) Neon Arcade
+   386→(cid:127) Cozy Cinema
+   387→(cid:127) Cyber Loft
+   388→
+   389→=== PAGE 12 ===
+   390→(cid:127) Space Station
+   391→(cid:127) Sunset Drive-In
+   392→(cid:127) Minimal Studio
+   393→Customization:
+   394→(cid:127) background
+   395→(cid:127) accent
+   396→(cid:127) ambient animation
+   397→(cid:127) room icon
+   398→(cid:127) room title
+   399→(cid:127) wallpaper
+   400→(cid:127) layout density
+   401→(cid:127) glass/solid panels
+   402→Animations must respect `prefers-reduced-motion`.
+   403→---
+   404→18. Games
+   405→Free/open-source-first games.
+   406→MVP:
+   407→(cid:127) Tic-Tac-Toe
+   408→(cid:127) Connect Four
+   409→(cid:127) Chess
+   410→(cid:127) drawing/whiteboard mini-game
+   411→(cid:127) reaction game
+   412→Phase 2:
+   413→(cid:127) card games
+   414→(cid:127) multiplayer board games
+   415→(cid:127) additional open-source games
+   416→For games:
+   417→(cid:127) authoritative room state
+   418→(cid:127) deterministic event model where practical
+   419→(cid:127) anti-cheat validation
+   420→(cid:127) reconnect state recovery
+   421→Do not embed copyrighted ROMs or proprietary game assets.
+   422→---
+   423→
+   424→=== PAGE 13 ===
+   425→19. Whiteboard
+   426→Features:
+   427→(cid:127) pen
+   428→(cid:127) highlighter
+   429→(cid:127) shapes
+   430→(cid:127) text
+   431→(cid:127) eraser
+   432→(cid:127) undo/redo
+   433→(cid:127) clear
+   434→(cid:127) cursor/presence
+   435→(cid:127) collaborative realtime state
+   436→Use a compact operation/event model rather than broadcasting full canvas snapshots constantly.
+   437→---
+   438→20. File Sharing
+   439→Free-first approach:
+   440→(cid:127) direct P2P transfer using WebRTC DataChannels
+   441→(cid:127) local browser file selection
+   442→(cid:127) transfer progress
+   443→(cid:127) cancel
+   444→(cid:127) size limits
+   445→(cid:127) file-type warnings
+   446→(cid:127) no permanent server storage by default
+   447→Fallback:
+   448→(cid:127) optional free-tier object storage adapter
+   449→Never make user files public by default.
+   450→---
+   451→21. Shared Links
+   452→Users can send links into room chat.
+   453→Features:
+   454→(cid:127) URL validation
+   455→(cid:127) safe preview
+   456→(cid:127) title/favicon retrieval through safe server-side metadata service where available
+   457→
+   458→=== PAGE 14 ===
+   459→(cid:127) no arbitrary server-side URL fetching that can create SSRF vulnerabilities
+   460→---
+   461→22. Shared Browser
+   462→Important constraint:
+   463→A normal browser cannot simply render and control every arbitrary third-party website inside a cross-origin iframe.
+   464→Therefore implement:
+   465→1. link sharing
+   466→2. screen sharing
+   467→3. supported embeds
+   468→4. optional future remote-browser provider abstraction
+   469→Do not create an insecure open proxy.
+   470→---
+   471→23. Authentication
+   472→Google login:
+   473→(cid:127) OAuth/OIDC provider
+   474→(cid:127) secure callback
+   475→(cid:127) account linking
+   476→(cid:127) session management
+   477→Guest:
+   478→(cid:127) generated anonymous session ID
+   479→(cid:127) display name
+   480→(cid:127) temporary avatar
+   481→(cid:127) room-scoped identity
+   482→Guest accounts should not require persistent personal information.
+   483→---
+   484→24. Database
+   485→Prefer Supabase/Postgres free tier or another free-tier-compatible Postgres provider.
+   486→Suggested tables:
+   487→users
+   488→profiles
+   489→
+   490→=== PAGE 15 ===
+   491→rooms
+   492→room_members
+   493→room_roles
+   494→room_settings
+   495→room_sessions
+   496→messages
+   497→message_reactions
+   498→playlists
+   499→playlist_items
+   500→room_events
+   501→reports
+   502→bans
+   503→saved_rooms
+   504→user_preferences
+   505→Do not persist high-frequency WebRTC signaling events permanently.
+   506→---
+   507→25. Realtime Architecture
+   508→Recommended:
+   509→Frontend:
+   510→Next.js + TypeScript
+   511→Backend:
+   512→Node.js + TypeScript
+   513→Realtime:
+   514→Socket.IO or native WebSocket
+   515→Media:
+   516→WebRTC
+   517→Database:
+   518→Postgres/Supabase
+   519→Auth:
+   520→Google OAuth + guest sessions
+   521→State:
+   522→Zustand or equivalent lightweight client store
+   523→Validation:
+   524→
+   525→=== PAGE 16 ===
+   526→Zod
+   527→Styling:
+   528→Tailwind CSS
+   529→Animation:
+   530→Framer Motion
+   531→Icons:
+   532→Lucide
+   533→PWA:
+   534→manifest + service worker
+   535→---
+   536→26. Room Event Protocol
+   537→Use typed events.
+   538→Examples:
+   539→ROOM_JOIN
+   540→ROOM_LEAVE
+   541→PRESENCE_UPDATE
+   542→ROLE_UPDATE
+   543→ROOM_SETTINGS_UPDATE
+   544→CHAT_MESSAGE
+   545→CHAT_DELETE
+   546→CHAT_REACTION
+   547→TYPING_START
+   548→TYPING_STOP
+   549→MEDIA_PLAY
+   550→MEDIA_PAUSE
+   551→MEDIA_SEEK
+   552→MEDIA_SYNC
+   553→MEDIA_SOURCE_CHANGE
+   554→WEBRTC_OFFER
+   555→WEBRTC_ANSWER
+   556→WEBRTC_ICE
+   557→SCREEN_SHARE_START
+   558→
+   559→=== PAGE 17 ===
+   560→SCREEN_SHARE_STOP
+   561→GAME_STATE
+   562→GAME_ACTION
+   563→WHITEBOARD_OPERATION
+   564→FILE_OFFER
+   565→FILE_ACCEPT
+   566→FILE_PROGRESS
+   567→FILE_COMPLETE
+   568→FILE_CANCEL
+   569→Every event must have:
+   570→(cid:127) event ID
+   571→(cid:127) room ID
+   572→(cid:127) sender ID
+   573→(cid:127) timestamp
+   574→(cid:127) schema version where appropriate
+   575→(cid:127) payload
+   576→Validate all incoming events.
+   577→---
+   578→27. Free Infrastructure Strategy
+   579→Target n0.
+   580→Frontend:
+   581→(cid:127) Cloudflare Pages or equivalent free static/Next-compatible deployment
+   582→(cid:127) Vercel free tier as alternative where compatible
+   583→Backend:
+   584→(cid:127) free-tier compatible Node host
+   585→(cid:127) architecture must allow self-hosting
+   586→Database:
+   587→(cid:127) Supabase free tier or equivalent
+   588→WebRTC:
+   589→(cid:127) browser P2P
+   590→(cid:127) free STUN
+   591→(cid:127) TURN adapter optional
+   592→
+   593→=== PAGE 18 ===
+   594→Important:
+   595→Free tiers change over time. Never hard-code the assumption that a third-party free tier is unlimited.
+   596→Create adapters/interfaces for:
+   597→(cid:127) database
+   598→(cid:127) auth
+   599→(cid:127) TURN
+   600→(cid:127) storage
+   601→(cid:127) email
+   602→(cid:127) analytics
+   603→This makes providers replaceable.
+   604→---
+   605→28. Security
+   606→Required:
+   607→(cid:127) HTTPS
+   608→(cid:127) secure cookies
+   609→(cid:127) CSRF protection where applicable
+   610→(cid:127) strict CORS
+   611→(cid:127) CSP
+   612→(cid:127) XSS sanitization
+   613→(cid:127) schema validation
+   614→(cid:127) rate limiting
+   615→(cid:127) room access checks
+   616→(cid:127) permission checks server-side
+   617→(cid:127) message length limits
+   618→(cid:127) file size/type limits
+   619→(cid:127) SSRF prevention
+   620→(cid:127) safe URL parsing
+   621→(cid:127) abuse reporting
+   622→(cid:127) ban system
+   623→(cid:127) session expiry
+   624→(cid:127) brute-force protection
+   625→Never trust client role information.
+   626→---
+   627→29. Privacy
+   628→
+   629→=== PAGE 19 ===
+   630→Default:
+   631→(cid:127) minimum data collection
+   632→(cid:127) guest-first
+   633→(cid:127) no unnecessary tracking
+   634→(cid:127) no recording by default
+   635→(cid:127) camera/mic only after browser permission
+   636→(cid:127) private rooms not discoverable
+   637→(cid:127) ephemeral room state where practical
+   638→Provide:
+   639→(cid:127) Privacy Policy
+   640→(cid:127) Terms
+   641→(cid:127) Community/Safety rules
+   642→---
+   643→30. Performance
+   644→Targets:
+   645→(cid:127) fast landing page
+   646→(cid:127) lazy-load room modules
+   647→(cid:127) dynamic import heavy games
+   648→(cid:127) optimize video/image assets
+   649→(cid:127) minimize WebSocket traffic
+   650→(cid:127) throttle presence updates
+   651→(cid:127) avoid React re-render storms
+   652→(cid:127) virtualize long chats
+   653→(cid:127) use optimistic UI where safe
+   654→(cid:127) handle reconnects gracefully
+   655→---
+   656→31. Error States
+   657→Must handle:
+   658→(cid:127) invalid room
+   659→(cid:127) expired room
+   660→(cid:127) room full
+   661→(cid:127) wrong password
+   662→(cid:127) camera denied
+   663→(cid:127) microphone denied
+   664→
+   665→=== PAGE 20 ===
+   666→(cid:127) screen-share denied
+   667→(cid:127) WebRTC failure
+   668→(cid:127) socket disconnect
+   669→(cid:127) database unavailable
+   670→(cid:127) invalid media URL
+   671→(cid:127) unsupported media
+   672→(cid:127) autoplay blocked
+   673→(cid:127) participant reconnect
+   674→(cid:127) host leaves
+   675→(cid:127) permission denied
+   676→Every error needs a human-readable recovery action.
+   677→---
+   678→32. Host Transfer
+   679→If owner/host disconnects:
+   680→1. detect timeout
+   681→2. elect next eligible participant
+   682→3. update role
+   683→4. broadcast new host
+   684→5. preserve room state
+   685→Do not immediately destroy a room because one user disconnected.
+   686→---
+   687→33. Mobile
+   688→Responsive from the beginning.
+   689→Mobile requirements:
+   690→(cid:127) touch controls
+   691→(cid:127) bottom sheet chat
+   692→(cid:127) compact participant list
+   693→(cid:127) portrait/landscape support
+   694→(cid:127) camera controls
+   695→(cid:127) screen-share limitations clearly communicated
+   696→(cid:127) PWA install
+   697→(cid:127) safe-area support
+   698→(cid:127) low-bandwidth mode
+   699→
+   700→=== PAGE 21 ===
+   701→---
+   702→34. PWA
+   703→Include:
+   704→(cid:127) manifest
+   705→(cid:127) icons
+   706→(cid:127) install prompt
+   707→(cid:127) offline landing shell
+   708→(cid:127) app shortcuts where supported
+   709→(cid:127) theme metadata
+   710→Realtime room functionality still requires connectivity.
+   711→---
+   712→35. Accessibility
+   713→Target WCAG-minded implementation:
+   714→(cid:127) keyboard navigation
+   715→(cid:127) visible focus
+   716→(cid:127) semantic buttons
+   717→(cid:127) aria labels
+   718→(cid:127) contrast
+   719→(cid:127) reduced motion
+   720→(cid:127) screen-reader friendly controls
+   721→(cid:127) captions/transcripts only where technically available
+   722→---
+   723→36. Premium UI Direction
+   724→DARKO must NOT look like a generic Discord clone.
+   725→Visual direction:
+   726→(cid:127) cinematic dark interface
+   727→(cid:127) deep layered backgrounds
+   728→(cid:127) soft glass surfaces
+   729→(cid:127) subtle grain
+   730→(cid:127) large expressive typography
+   731→(cid:127) ambient gradients
+   732→(cid:127) responsive micro-interactions
+   733→
+   734→=== PAGE 22 ===
+   735→(cid:127) premium cards
+   736→(cid:127) floating room controls
+   737→(cid:127) elegant transitions
+   738→(cid:127) spatial hierarchy
+   739→(cid:127) strong empty states
+   740→Avoid:
+   741→(cid:127) excessive neon
+   742→(cid:127) noisy gradients
+   743→(cid:127) template-dashboard look
+   744→(cid:127) excessive rounded cards
+   745→(cid:127) copying Kosmi layouts
+   746→The UI must have its own design language.
+   747→---
+   748→37. Design Tokens
+   749→Define:
+   750→(cid:127) spacing scale
+   751→(cid:127) typography scale
+   752→(cid:127) radius scale
+   753→(cid:127) shadow/elevation
+   754→(cid:127) surface hierarchy
+   755→(cid:127) motion timing
+   756→(cid:127) z-index layers
+   757→(cid:127) breakpoints
+   758→Use CSS variables.
+   759→Support dark/light if implemented, but dark mode is the primary visual identity.
+   760→---
+   761→38. Admin Dashboard
+   762→Pages:
+   763→(cid:127) overview
+   764→(cid:127) active rooms
+   765→(cid:127) reports
+   766→(cid:127) users
+   767→(cid:127) bans
+   768→
+   769→=== PAGE 23 ===
+   770→(cid:127) system health
+   771→(cid:127) feature flags
+   772→Metrics:
+   773→(cid:127) active rooms
+   774→(cid:127) active users
+   775→(cid:127) realtime connection count
+   776→(cid:127) WebRTC failure rate
+   777→(cid:127) errors
+   778→(cid:127) reports
+   779→(cid:127) feature usage
+   780→Do not store excessive personal analytics.
+   781→---
+   782→39. Testing
+   783→Unit:
+   784→(cid:127) room permissions
+   785→(cid:127) synchronization calculations
+   786→(cid:127) event validation
+   787→(cid:127) role transitions
+   788→Integration:
+   789→(cid:127) room creation/join
+   790→(cid:127) chat
+   791→(cid:127) media sync
+   792→(cid:127) reconnect
+   793→(cid:127) host transfer
+   794→E2E:
+   795→(cid:127) guest join
+   796→(cid:127) Google login
+   797→(cid:127) create room
+   798→(cid:127) invite
+   799→(cid:127) watch YouTube
+   800→(cid:127) chat
+   801→(cid:127) voice/video
+   802→(cid:127) screen share
+   803→(cid:127) game
+   804→Test desktop + mobile browsers.
+   805→
+   806→=== PAGE 24 ===
+   807→---
+   808→40. Development Phases
+   809→Phase 1 — Foundation
+   810→(cid:127) Next.js app
+   811→(cid:127) design system
+   812→(cid:127) landing page
+   813→(cid:127) authentication
+   814→(cid:127) guest sessions
+   815→(cid:127) database
+   816→(cid:127) room creation/join
+   817→Phase 2 — Realtime
+   818→(cid:127) Socket/WebSocket
+   819→(cid:127) presence
+   820→(cid:127) chat
+   821→(cid:127) roles
+   822→(cid:127) permissions
+   823→Phase 3 — WebRTC
+   824→(cid:127) voice
+   825→(cid:127) video
+   826→(cid:127) screen share
+   827→(cid:127) reconnect
+   828→Phase 4 — Watch Party
+   829→(cid:127) YouTube
+   830→(cid:127) direct video
+   831→(cid:127) synchronization
+   832→(cid:127) playlist
+   833→Phase 5 — Games
+   834→(cid:127) Tic-Tac-Toe
+   835→(cid:127) Connect Four
+   836→(cid:127) Chess
+   837→(cid:127) drawing
+   838→
+   839→=== PAGE 25 ===
+   840→Phase 6 — Collaboration
+   841→(cid:127) file P2P
+   842→(cid:127) whiteboard
+   843→(cid:127) link sharing
+   844→Phase 7 — Public ecosystem
+   845→(cid:127) public lobby
+   846→(cid:127) moderation
+   847→(cid:127) reports
+   848→(cid:127) admin
+   849→Phase 8 — Polish
+   850→(cid:127) animations
+   851→(cid:127) PWA
+   852→(cid:127) accessibility
+   853→(cid:127) performance
+   854→(cid:127) security
+   855→(cid:127) testing
+   856→(cid:127) deployment
+   857→---
+   858→41. Acceptance Criteria
+   859→The MVP is successful when:
+   860→1. A user can create a room without paying.
+   861→2. A guest can join through a link without an account.
+   862→3. Google login works.
+   863→4. Multiple users appear in realtime.
+   864→5. Chat works.
+   865→6. Voice/video works where WebRTC connectivity permits.
+   866→7. Screen sharing works where browser permissions permit.
+   867→8. YouTube playback can synchronize.
+   868→9. Host controls are enforced server-side.
+   869→10. Users can play at least three multiplayer games.
+   870→11. Room permissions work.
+   871→12. Reconnect does not destroy room state.
+   872→13. Mobile layout is usable.
+   873→14. PWA can be installed.
+   874→
+   875→=== PAGE 26 ===
+   876→15. No paid API is required for the core MVP.
+   877→16. The application does not bypass DRM or redistribute protected content.
+   878→17. Security validation is implemented before production.
+   879→---
+   880→42. MASTER DEVELOPMENT PROMPT
+   881→You are a senior staff-level full-stack engineer, realtime systems architect, WebRTC engineer, product designer, security
+   882→engineer, and QA lead.
+   883→Build a production-quality web application called DARKO.
+   884→DARKO is an original browser-first virtual hangout platform inspired by the general product category of watch-party and
+   885→virtual-room applications.
+   886→The goal is NOT to copy Kosmi's branding, source code, assets, text, or exact UI. Build a clearly original product with
+   887→superior premium UX.
+   888→Core product
+   889→Users can:
+   890→(cid:127) create rooms
+   891→(cid:127) join rooms through links
+   892→(cid:127) join as guests
+   893→(cid:127) optionally authenticate with Google
+   894→(cid:127) chat
+   895→(cid:127) voice chat
+   896→(cid:127) video chat
+   897→(cid:127) screen share
+   898→(cid:127) watch supported media together
+   899→(cid:127) synchronize playback
+   900→(cid:127) use playlists
+   901→(cid:127) share links
+   902→(cid:127) transfer files P2P
+   903→(cid:127) use collaborative whiteboard
+   904→(cid:127) play multiplayer games
+   905→(cid:127) customize rooms
+   906→(cid:127) manage roles and permissions
+   907→(cid:127) discover public rooms
+   908→(cid:127) report abuse
+   909→Hard constraints
+   910→
+   911→=== PAGE 27 ===
+   912→1. Target n0 infrastructure cost.
+   913→2. Prefer free/open-source technologies.
+   914→3. No paid APIs required for MVP.
+   915→4. Do not bypass DRM.
+   916→5. Do not proxy protected streaming services.
+   917→6. Do not redistribute copyrighted content.
+   918→7. Use WebRTC for realtime media.
+   919→8. Use a replaceable architecture for TURN/SFU/storage.
+   920→9. Guest joining must work.
+   921→10. Google login must be optional.
+   922→11. UI must be completely original and premium.
+   923→12. Desktop, tablet and mobile must work.
+   924→Preferred stack
+   925→Next.js + TypeScript
+   926→Tailwind CSS
+   927→Framer Motion
+   928→Node.js + TypeScript
+   929→Socket.IO/WebSocket
+   930→WebRTC
+   931→Postgres/Supabase-compatible database
+   932→Google OAuth
+   933→Zod
+   934→Zustand or equivalent
+   935→Lucide
+   936→PWA
+   937→Use alternatives only when there is a strong technical reason.
+   938→Engineering rules
+   939→(cid:127) strict TypeScript
+   940→(cid:127) no `any` unless unavoidable and documented
+   941→(cid:127) reusable components
+   942→(cid:127) modular services
+   943→(cid:127) server-side authorization
+   944→(cid:127) typed realtime events
+   945→(cid:127) schema validation
+   946→(cid:127) clean error handling
+   947→
+   948→=== PAGE 28 ===
+   949→(cid:127) no secret keys in client code
+   950→(cid:127) `.env.example`
+   951→(cid:127) README
+   952→(cid:127) Docker support where useful
+   953→(cid:127) migration scripts
+   954→(cid:127) seed data for development
+   955→(cid:127) unit/integration/e2e tests
+   956→(cid:127) accessible controls
+   957→(cid:127) reduced-motion support
+   958→Architecture
+   959→Separate:
+   960→(cid:127) UI
+   961→(cid:127) room state
+   962→(cid:127) realtime transport
+   963→(cid:127) media/WebRTC
+   964→(cid:127) authentication
+   965→(cid:127) persistence
+   966→(cid:127) moderation
+   967→(cid:127) games
+   968→(cid:127) media providers
+   969→Create provider interfaces so future infrastructure can replace:
+   970→(cid:127) TURN
+   971→(cid:127) database
+   972→(cid:127) storage
+   973→(cid:127) authentication
+   974→(cid:127) analytics
+   975→(cid:127) SFU
+   976→Realtime
+   977→Design a versioned event protocol.
+   978→Every incoming event must:
+   979→(cid:127) be authenticated or associated with a valid guest session
+   980→(cid:127) validate payload
+   981→(cid:127) validate room membership
+   982→(cid:127) validate permission
+   983→(cid:127) be rate limited where necessary
+   984→
+   985→=== PAGE 29 ===
+   986→Never trust the client for host/moderator privileges.
+   987→WebRTC
+   988→Implement:
+   989→(cid:127) offer/answer
+   990→(cid:127) ICE candidate exchange
+   991→(cid:127) STUN configuration
+   992→(cid:127) peer lifecycle
+   993→(cid:127) reconnect
+   994→(cid:127) device changes
+   995→(cid:127) mute/camera states
+   996→(cid:127) screen share
+   997→(cid:127) connection quality
+   998→Keep media architecture abstract enough to migrate from P2P mesh to SFU later.
+   999→For small rooms, P2P may be acceptable. Do not claim unlimited scalability.
+  1000→Watch synchronization
+  1001→Create a room media state.
+  1002→Use:
+  1003→(cid:127) authoritative host/client policy
+  1004→(cid:127) timestamp-based synchronization
+  1005→(cid:127) drift correction
+  1006→(cid:127) explicit play/pause/seek events
+  1007→(cid:127) sync request/response
+  1008→Do not broadcast playback position continuously.
+  1009→UI
+  1010→Design DARKO from scratch.
+  1011→The interface should feel:
+  1012→(cid:127) cinematic
+  1013→(cid:127) premium
+  1014→(cid:127) modern
+  1015→(cid:127) immersive
+  1016→(cid:127) social
+  1017→
+  1018→=== PAGE 30 ===
+  1019→(cid:127) responsive
+  1020→Create a consistent design system before building individual pages.
+  1021→Include:
+  1022→(cid:127) landing page
+  1023→(cid:127) create room
+  1024→(cid:127) join flow
+  1025→(cid:127) room
+  1026→(cid:127) profile
+  1027→(cid:127) settings
+  1028→(cid:127) games
+  1029→(cid:127) public lobby
+  1030→(cid:127) admin
+  1031→The room must feel like a real virtual space rather than a dashboard.
+  1032→Room UI
+  1033→Desktop:
+  1034→(cid:127) activity stage
+  1035→(cid:127) participant area
+  1036→(cid:127) chat
+  1037→(cid:127) media controls
+  1038→(cid:127) activity switcher
+  1039→(cid:127) room controls
+  1040→Mobile:
+  1041→(cid:127) bottom navigation
+  1042→(cid:127) bottom sheets
+  1043→(cid:127) collapsible panels
+  1044→(cid:127) touch-first controls
+  1045→Games
+  1046→Build at least:
+  1047→(cid:127) Tic-Tac-Toe
+  1048→(cid:127) Connect Four
+  1049→(cid:127) Chess
+  1050→Games must have synchronized state and reconnect support.
+  1051→
+  1052→=== PAGE 31 ===
+  1053→File sharing
+  1054→Prefer WebRTC DataChannel for direct P2P transfers.
+  1055→Implement:
+  1056→(cid:127) file metadata
+  1057→(cid:127) offer
+  1058→(cid:127) accept/reject
+  1059→(cid:127) chunk transfer
+  1060→(cid:127) progress
+  1061→(cid:127) cancel
+  1062→(cid:127) completion
+  1063→(cid:127) limits
+  1064→Do not permanently upload files by default.
+  1065→Security
+  1066→Implement:
+  1067→(cid:127) secure sessions
+  1068→(cid:127) CSRF protection where applicable
+  1069→(cid:127) CORS
+  1070→(cid:127) CSP
+  1071→(cid:127) XSS protection
+  1072→(cid:127) SSRF protection
+  1073→(cid:127) rate limits
+  1074→(cid:127) room authorization
+  1075→(cid:127) moderation
+  1076→(cid:127) abuse reports
+  1077→(cid:127) file validation
+  1078→(cid:127) URL validation
+  1079→(cid:127) role enforcement
+  1080→Privacy
+  1081→Collect the minimum necessary data.
+  1082→Guests should not need personal information.
+  1083→Do not record voice/video.
+  1084→Do not expose private rooms in public discovery.
+  1085→
+  1086→=== PAGE 32 ===
+  1087→Free deployment
+  1088→Provide deployment instructions for a free-tier-first setup.
+  1089→Document:
+  1090→(cid:127) frontend deployment
+  1091→(cid:127) backend deployment
+  1092→(cid:127) database setup
+  1093→(cid:127) Google OAuth setup
+  1094→(cid:127) environment variables
+  1095→(cid:127) WebRTC/STUN
+  1096→(cid:127) optional TURN
+  1097→(cid:127) PWA
+  1098→(cid:127) production security
+  1099→Do not promise that third-party free tiers are unlimited. Clearly mark quotas and possible future cost points.
+  1100→Output requirements
+  1101→When generating the application, work in this order:
+  1102→1. architecture
+  1103→2. database schema
+  1104→3. event protocol
+  1105→4. design system
+  1106→5. landing page
+  1107→6. authentication
+  1108→7. room lifecycle
+  1109→8. realtime infrastructure
+  1110→9. chat/presence
+  1111→10. WebRTC
+  1112→11. watch synchronization
+  1113→12. games
+  1114→13. file sharing
+  1115→14. whiteboard
+  1116→15. public rooms
+  1117→16. moderation
+  1118→17. admin
+  1119→18. PWA
+  1120→19. tests
+  1121→20. security audit
+  1122→
+  1123→=== PAGE 33 ===
+  1124→21. performance audit
+  1125→22. deployment documentation
+  1126→Do not generate fake buttons for core features.
+  1127→If a feature cannot be implemented using browser capabilities or a free dependency, implement the closest honest
+  1128→alternative and document the limitation.
+  1129→Before considering the product complete, verify all acceptance criteria in this PRD.
+  1130→---
+  1131→43. Final Product Personality
+  1132→DARKO should feel like:
+  1133→“Discord + watch party + virtual room + mini-game lounge + collaborative space”
+  1134→but should remain an original product with its own visual identity and architecture.
+  1135→The user should be able to open DARKO, create a room in seconds, send one link, and have a complete virtual hangout
+  1136→without forcing everyone to install software or create accounts.
+  1137→
