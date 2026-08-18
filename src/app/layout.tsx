@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Cinzel, Tiro_Devanagari_Hindi } from "next/font/google";
+import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({
@@ -9,62 +10,63 @@ const inter = Inter({
   display: "swap",
 });
 
-const cinzel = Cinzel({
-  variable: "--font-cinzel",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const tiroDeva = Tiro_Devanagari_Hindi({
-  variable: "--font-tiro",
-  subsets: ["devanagari"],
-  weight: ["400"],
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Independence Day 2026 — India | Freedom, Pride & Progress",
+  title: {
+    default: "DARKO — Virtual hangouts for everyone",
+    template: "%s · DARKO",
+  },
   description:
-    "A cinematic digital celebration of India's independence — 15 August 2026. Journey from sacrifice to freedom, from freedom to progress. Jai Hind.",
+    "Create a room, share one link, and everything you need for a digital hangout is inside — watch together, voice/video chat, play games, share files. No app install, no mandatory account.",
   keywords: [
-    "India Independence Day",
-    "15 August 2026",
-    "Indian Freedom Struggle",
-    "Tiranga",
-    "Ashoka Chakra",
-    "Jai Hind",
-    "Freedom Fighters",
+    "virtual hangout",
+    "watch party",
+    "voice chat",
+    "video chat",
+    "screen share",
+    "play games online",
+    "DARKO",
   ],
-  authors: [{ name: "Bharat" }],
+  authors: [{ name: "DARKO" }],
   manifest: "/manifest.json",
   icons: {
-    icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
-    ],
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     apple: [{ url: "/icon.svg" }],
   },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "India 2026",
+    title: "DARKO",
   },
   openGraph: {
-    title: "Independence Day 2026 — India 🇮🇳",
+    title: "DARKO — Virtual hangouts for everyone",
     description:
-      "A cinematic digital celebration of India's independence — Freedom, Pride & Progress.",
+      "Create a room, share one link. Watch together, talk, play games, share files. No app install, no mandatory account.",
     type: "website",
-    locale: "en_IN",
+    siteName: "DARKO",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Independence Day 2026 — India",
-    description: "A cinematic digital celebration of India's independence.",
+    title: "DARKO — Virtual hangouts",
+    description: "Create a room, share one link. Everything for a digital hangout, inside.",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000080",
+  themeColor: "#0A0B14",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -77,12 +79,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="dark">
       <body
-        className={`${inter.variable} ${cinzel.variable} ${tiroDeva.variable} antialiased bg-background text-foreground`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}
       >
-        {children}
-        <Toaster />
+        <Providers>
+          {children}
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );
