@@ -2,11 +2,30 @@
 
 **Virtual hangouts for everyone.** Create a room, share one link, and everything you need for a digital hangout is inside — watch together, voice/video chat, play games, share files. No app install, no mandatory account.
 
-> **Status:** Phase 1 (Foundation) complete. Realtime (Phase 2), WebRTC (Phase 3), watch party (Phase 4), games (Phase 5), file sharing (Phase 6), public lobby (Phase 7), and polish (Phase 8) are documented in `docs/ARCHITECTURE.md`.
+> **Status:** Phase 1 (Foundation) + Phase 2 (Realtime) complete. WebRTC (Phase 3), watch party (Phase 4), games (Phase 5), file sharing (Phase 6), public lobby (Phase 7), and polish (Phase 8) are documented in `docs/ARCHITECTURE.md`.
 
 ---
 
-## What works right now (Phase 1)
+## Push to your own GitHub
+
+This project is a local git repo with clean commit history. To push it to your own GitHub:
+
+```bash
+# 1. Create a new empty repo on GitHub (don't add README/license/.gitignore)
+# 2. Copy the HTTPS URL GitHub gives you
+# 3. Run:
+./scripts/push-to-github.sh https://github.com/yourname/darko.git
+
+# Or set DARKO_REMOTE and run without args:
+export DARKO_REMOTE=https://github.com/yourname/darko.git
+./scripts/push-to-github.sh
+```
+
+The script adds `origin`, pushes `main`, and sets up tracking. After that, just `git push` to update.
+
+---
+
+## What works right now (Phase 1 + 2)
 
 - ✅ **Landing page** — cinematic hero, features grid, how-it-works, CTA
 - ✅ **Guest login** — pick a display name, no account needed
@@ -19,14 +38,18 @@
 - ✅ **Auth** — NextAuth with JWT strategy, Google + guest credentials provider
 - ✅ **SSRF-safe URL metadata** — for future link previews
 - ✅ **Rate limiting** — token bucket per IP
-- ✅ **Room-scoped JWT** — 4h TTL, used for Socket.IO handshake (Phase 2)
+- ✅ **Room-scoped JWT** — 4h TTL, used for Socket.IO handshake
 - ✅ **Zod validation** — shared schemas between client and server
 - ✅ **Type-safe API** — typed responses, no `any`
+- ✅ **Realtime server** — Socket.IO mini-service on port 3003 (Phase 2)
+- ✅ **Live presence** — join/leave/heartbeat/timeout, participant tiles update in real time
+- ✅ **Realtime chat** — messages, replies, reactions, typing indicator, delete
+- ✅ **Server-authoritative roles** — OWNER/HOST/MODERATOR/MEMBER/GUEST with permission checks
+- ✅ **Host transfer** — auto on disconnect timeout + manual transfer
+- ✅ **Room settings** — live updates to permissions, media control, etc.
 
-## What's coming in Phase 2+
+## What's coming in Phase 3+
 
-- ⏳ Realtime server (Socket.IO mini-service on port 3003)
-- ⏳ Presence, chat, roles, permissions
 - ⏳ WebRTC voice/video/screen share (mesh ≤6, SFU-ready)
 - ⏳ Watch party (YouTube + direct video + sync algorithm)
 - ⏳ Multiplayer games (Tic-Tac-Toe, Connect Four, Chess)
@@ -63,6 +86,18 @@ bun run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+### Start the realtime server (Phase 2+)
+
+The realtime server is a separate mini-service on port 3003:
+
+```bash
+cd mini-services/realtime
+bun install                    # first time only
+bun run dev                    # starts on port 3003 with hot reload
+```
+
+The Next.js frontend connects to it automatically (via `NEXT_PUBLIC_SOCKET_URL` env var, or `localhost:3003` in dev).
 
 ### Try the flow
 
@@ -134,6 +169,27 @@ src/
 prisma/
 ├── schema.prisma            # Full data model
 └── migrations/
+
+mini-services/
+└── realtime/                # Socket.IO realtime server (port 3003)
+    ├── src/
+    │   ├── index.ts         # Bootstrap
+    │   ├── auth.ts          # JWT verification middleware
+    │   ├── events.ts        # Shared event types (mirrored in frontend)
+    │   ├── rooms/
+    │   │   ├── room-manager.ts   # In-memory room state, presence, heartbeat
+    │   │   └── permissions.ts    # Server-authoritative permission checks
+    │   ├── events/
+    │   │   ├── room.ts      # Room lifecycle (join/leave/heartbeat)
+    │   │   ├── chat.ts      # Chat (message/delete/reaction/typing)
+    │   │   └── roles.ts     # Roles + settings (promote/kick/transfer/update)
+    │   ├── validators/      # Zod schemas (server-side)
+    │   ├── rate-limit.ts    # Per-socket token bucket
+    │   └── prisma.ts        # Prisma client
+    └── package.json
+
+scripts/
+└── push-to-github.sh        # Push this repo to your own GitHub
 
 docs/
 ├── ARCHITECTURE.md          # Complete architecture + 8-phase plan
