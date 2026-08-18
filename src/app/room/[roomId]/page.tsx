@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect, use, useCallback } from "react";
+import { useState, useEffect, use, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Copy, Check, Users, AlertTriangle, Loader2, ArrowLeft, Settings, MessageSquare, X, Menu } from "lucide-react";
+import { Copy, Check, Users, AlertTriangle, Loader2, ArrowLeft, Settings, MessageSquare, X, Video, Gamepad2 } from "lucide-react";
 import { Logo } from "@/components/shared/Logo";
 import { Button } from "@/components/shared/Button";
 import { getTheme } from "@/config/themes";
@@ -12,6 +12,7 @@ import { useRoomStore } from "@/stores/room-store";
 import { useChatStore } from "@/stores/chat-store";
 import { ParticipantStrip } from "@/components/darko/room/ParticipantStrip";
 import { ChatPanel } from "@/components/darko/chat/ChatPanel";
+import { RoomMedia } from "@/components/darko/webrtc/RoomMedia";
 import type { RoomDTO } from "@/types/api";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -31,11 +32,15 @@ export default function RoomPage({ params }: { params: Promise<{ roomId: string 
   const [copied, setCopied] = useState(false);
   const [chatOpenMobile, setChatOpenMobile] = useState(false);
   const [participantsOpenMobile, setParticipantsOpenMobile] = useState(false);
+  const [activeTab, setActiveTab] = useState<"call" | "activity">("call");
 
   // Subscribe to store values BEFORE any early returns (rules of hooks)
   const self = useRoomStore((s) => s.self);
   const participantCount = useRoomStore((s) => s.participants.length);
   const participants = useRoomStore((s) => s.participants);
+
+  // Compute participant IDs for WebRTC
+  const participantIds = useMemo(() => participants.map((p) => p.id), [participants]);
 
   // On mount: redirect if no token, otherwise fetch room metadata
   useEffect(() => {
@@ -258,60 +263,90 @@ export default function RoomPage({ params }: { params: Promise<{ roomId: string 
           <ParticipantStrip />
         </aside>
 
-        {/* Center: Activity stage (Phase 1: empty state) */}
-        <section className="flex-1 flex flex-col items-center justify-center px-4 py-8 min-w-0">
+        {/* Center: Activity stage with tabs */}
+        <section className="flex-1 flex flex-col min-w-0">
           {socketError ? (
-            <div className="surface-card p-6 max-w-md text-center">
-              <AlertTriangle className="h-8 w-8 text-amber-400 mx-auto mb-3" />
-              <h2 className="font-display text-lg font-semibold text-white mb-2">Connection issue</h2>
-              <p className="text-sm text-secondary mb-4">{socketError}</p>
-              <Button variant="outline" size="md" onClick={() => window.location.reload()}>
-                Retry
-              </Button>
+            <div className="flex-1 flex items-center justify-center px-4">
+              <div className="surface-card p-6 max-w-md text-center">
+                <AlertTriangle className="h-8 w-8 text-amber-400 mx-auto mb-3" />
+                <h2 className="font-display text-lg font-semibold text-white mb-2">Connection issue</h2>
+                <p className="text-sm text-secondary mb-4">{socketError}</p>
+                <Button variant="outline" size="md" onClick={() => window.location.reload()}>
+                  Retry
+                </Button>
+              </div>
             </div>
           ) : participantCount === 0 ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center max-w-lg"
-            >
-              <div className="relative mb-6">
-                <div
-                  className="h-20 w-20 rounded-2xl mx-auto flex items-center justify-center border-2 border-dashed"
-                  style={{ borderColor: theme.accent + "60", background: theme.accent + "10" }}
-                >
-                  <Users className="h-9 w-9" style={{ color: theme.accent }} />
+            <div className="flex-1 flex items-center justify-center px-4 py-8">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-center max-w-lg"
+              >
+                <div className="relative mb-6">
+                  <div
+                    className="h-20 w-20 rounded-2xl mx-auto flex items-center justify-center border-2 border-dashed"
+                    style={{ borderColor: theme.accent + "60", background: theme.accent + "10" }}
+                  >
+                    <Users className="h-9 w-9" style={{ color: theme.accent }} />
+                  </div>
                 </div>
-              </div>
-              <h2 className="font-display text-2xl font-bold text-white mb-2">Waiting for friends...</h2>
-              <p className="text-sm text-secondary mb-6">Share the invite link to start your hangout.</p>
-              <Button variant="primary" size="md" onClick={copyInviteLink} leftIcon={<Copy className="h-3.5 w-3.5" />}>
-                Copy invite link
-              </Button>
-            </motion.div>
+                <h2 className="font-display text-2xl font-bold text-white mb-2">Waiting for friends...</h2>
+                <p className="text-sm text-secondary mb-6">Share the invite link to start your hangout.</p>
+                <Button variant="primary" size="md" onClick={copyInviteLink} leftIcon={<Copy className="h-3.5 w-3.5" />}>
+                  Copy invite link
+                </Button>
+              </motion.div>
+            </div>
           ) : (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="w-full max-w-2xl text-center"
-            >
-              <div className="surface-card p-8 mb-6">
-                <div className="grid grid-cols-3 sm:grid-cols-4 gap-4 mb-6">
-                  {participants.slice(0, 8).map((p) => (
-                    <ParticipantTileMini key={p.id} participant={p} themeAccent={theme.accent} />
-                  ))}
-                </div>
-                <h2 className="font-display text-2xl font-bold text-white mb-2">
-                  {participantCount} {participantCount === 1 ? "person is" : "people are"} here
-                </h2>
-                <p className="text-sm text-secondary mb-4">
-                  Realtime features are live — chat is open, presence updates in real time.
-                </p>
-                <p className="text-xs text-muted">
-                  Phase 3 brings voice/video, Phase 4 brings watch party. Stay tuned.
-                </p>
+            <>
+              {/* Tab bar */}
+              <div className="flex items-center gap-1 px-4 pt-3 border-b border-border-subtle">
+                <TabButton
+                  active={activeTab === "call"}
+                  onClick={() => setActiveTab("call")}
+                  icon={Video}
+                  label="Voice / Video"
+                />
+                <TabButton
+                  active={activeTab === "activity"}
+                  onClick={() => setActiveTab("activity")}
+                  icon={Gamepad2}
+                  label="Activity"
+                />
               </div>
-            </motion.div>
+
+              {/* Tab content */}
+              <div className="flex-1 min-h-0">
+                {activeTab === "call" ? (
+                  <RoomMedia
+                    socket={socket}
+                    connected={connected}
+                    selfId={self?.id ?? null}
+                    participantIds={participantIds}
+                    participants={participants}
+                    onLeaveRoom={() => router.push("/dashboard")}
+                  />
+                ) : (
+                  <div className="flex flex-col items-center justify-center h-full p-8 text-center">
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-4 mb-6 max-w-md">
+                      {participants.slice(0, 8).map((p) => (
+                        <ParticipantTileMini key={p.id} participant={p} themeAccent={theme.accent} />
+                      ))}
+                    </div>
+                    <h2 className="font-display text-2xl font-bold text-white mb-2">
+                      {participantCount} {participantCount === 1 ? "person is" : "people are"} here
+                    </h2>
+                    <p className="text-sm text-secondary mb-4">
+                      Switch to Voice/Video to start a call. Chat is on the right.
+                    </p>
+                    <p className="text-xs text-muted">
+                      Phase 4 brings watch party. Phase 5 brings games. Stay tuned.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </>
           )}
         </section>
 
@@ -415,5 +450,23 @@ function ParticipantTileMini({ participant, themeAccent }: { participant: import
       </div>
       <span className="text-[10px] text-secondary truncate max-w-full">{participant.displayName}</span>
     </div>
+  );
+}
+
+// Tab button for switching between Call and Activity views
+function TabButton({ active, onClick, icon: Icon, label }: { active: boolean; onClick: () => void; icon: typeof Video; label: string }) {
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        "flex items-center gap-2 px-4 py-2 text-sm font-medium border-b-2 transition-colors -mb-px",
+        active
+          ? "border-primary text-white"
+          : "border-transparent text-secondary hover:text-white"
+      )}
+    >
+      <Icon className="h-4 w-4" />
+      {label}
+    </button>
   );
 }

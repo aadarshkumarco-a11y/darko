@@ -17,6 +17,7 @@ import { RoomManager } from "./rooms/room-manager.js";
 import { registerRoomHandlers } from "./events/room.js";
 import { registerChatHandlers } from "./events/chat.js";
 import { registerRoleHandlers, registerSettingsHandlers } from "./events/roles.js";
+import { registerWebRTCHandlers } from "./events/webrtc.js";
 import type { ClientToServerEvents, ServerToClientEvents } from "./events.js";
 
 const PORT = Number(process.env.REALTIME_PORT ?? 3003);
@@ -49,6 +50,7 @@ io.on("connection", (socket: AuthenticatedSocket) => {
   registerChatHandlers(io, socket, roomManager);
   registerRoleHandlers(io, socket, roomManager);
   registerSettingsHandlers(io, socket, roomManager);
+  registerWebRTCHandlers(io, socket, roomManager);
 
   // Disconnect handler
   socket.on("disconnect", (reason) => {

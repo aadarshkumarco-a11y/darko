@@ -86,6 +86,11 @@ export interface ClientToServerEvents {
   "media:seek": (payload: unknown, ack: (res: AckResponse) => void) => void;
   "media:source": (payload: unknown, ack: (res: AckResponse) => void) => void;
   "media:sync_request": (payload: unknown, ack: (res: AckResponse) => void) => void;
+  // WebRTC (Phase 3)
+  "webrtc:offer": (payload: WebRTCOfferPayload, ack: (res: AckResponse) => void) => void;
+  "webrtc:answer": (payload: WebRTCAnswerPayload, ack: (res: AckResponse) => void) => void;
+  "webrtc:ice": (payload: WebRTCIcePayload, ack: (res: AckResponse) => void) => void;
+  "screen:share": (payload: ScreenSharePayload, ack: (res: AckResponse) => void) => void;
 }
 
 // ============ Server → Client events ============
@@ -102,6 +107,11 @@ export interface ServerToClientEvents {
   "chat:typing": (payload: TypingBroadcast) => void;
   "role:update": (payload: RoleUpdateBroadcast) => void;
   "settings:update": (payload: SettingsUpdateBroadcast) => void;
+  // WebRTC (Phase 3)
+  "webrtc:offer": (payload: WebRTCOfferBroadcast) => void;
+  "webrtc:answer": (payload: WebRTCAnswerBroadcast) => void;
+  "webrtc:ice": (payload: WebRTCIceBroadcast) => void;
+  "screen:share": (payload: ScreenShareBroadcast) => void;
   "system:reconnect": (payload: { reason: string }) => void;
 }
 
@@ -259,4 +269,45 @@ export interface SettingsUpdatePayload {
 export interface SettingsUpdateBroadcast {
   changes: Partial<RoomSettingsState>;
   changedBy: string;
+}
+
+// ============ WebRTC payload types (Phase 3) ============
+
+export interface WebRTCOfferPayload {
+  targetUserId: string;
+  sdp: string;
+}
+
+export interface WebRTCAnswerPayload {
+  targetUserId: string;
+  sdp: string;
+}
+
+export interface WebRTCIcePayload {
+  targetUserId: string;
+  candidate: string;
+}
+
+export interface WebRTCOfferBroadcast {
+  fromUserId: string;
+  sdp: string;
+}
+
+export interface WebRTCAnswerBroadcast {
+  fromUserId: string;
+  sdp: string;
+}
+
+export interface WebRTCIceBroadcast {
+  fromUserId: string;
+  candidate: string;
+}
+
+export interface ScreenSharePayload {
+  isSharing: boolean;
+}
+
+export interface ScreenShareBroadcast {
+  userId: string;
+  isSharing: boolean;
 }
